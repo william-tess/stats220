@@ -15,4 +15,7 @@
 
 A meme that captures how I currently feel about my university studies is https://tenor.com/view/school-college-books-penguin-reading-gif-16215274309508310506
 
-My favourite animated gif: https://tenor.com/bjSWy.gif
+
+My favourite animated gif: 
+
+![lizard](https://c.tenor.com/wMCSmgJGE_AAAAAd/tenor.gif)
