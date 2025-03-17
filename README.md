@@ -15,7 +15,10 @@
 
 A meme that captures how I currently feel about my university studies is https://tenor.com/view/school-college-books-penguin-reading-gif-16215274309508310506
 
+### One of my favourite websites to check out statistics of video games
 
-My favourite animated gif: 
+[SteamDB](https://steamdb.info/)
+
+### My favourite animated gif: 
 
 ![lizard](https://c.tenor.com/wMCSmgJGE_AAAAAd/tenor.gif)
