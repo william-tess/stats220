@@ -1,0 +1,120 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+
+```
+
+## How Does Heart Rate Vary Throughout the Day?
+
+This dynamic report aims to investigate how heart rate for the subject (me) changes throughout the day including which activities were being done and what time of day it was.
+
+```{r}
+library(magick)
+
+image_read(path = "https://c.tenor.com/Xx2YeqghQtkAAAAd/tenor.gif") %>%
+  image_scale(200)
+
+```
+
+```{r}
+library(tidyverse)
+
+logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTCIlpUvabeVRVhMybVDz--d9tMtNJUHnrwwEnGMnvOZuP_SdXyPq46ip4oYhvKMuiRnSiRHw3oYnBd/pub?output=csv")
+latest_data <- logged_data %>%
+  rename(date_and_time = 1,
+         heart_rate_bpm = 2,
+         time_of_day = 3,
+         activity = 4)
+
+
+#----------------------Exploration----------------------
+
+#Creating new dataframe for average heart rates across different times of the day
+
+time_of_day = c("Morning (7am - 11am)",                                                               #Variable for different times of the day
+                "Afternoon (12pm - 4pm)",
+                "Evening (5pm - 9pm)",
+                "Night (9pm - 1am)")
+
+hr_means <- c(mean(latest_data$heart_rate_bpm[latest_data$time_of_day=="Morning (7am - 11am)"]),      #Variable for mean heart rates across different times of the day
+              mean(latest_data$heart_rate_bpm[latest_data$time_of_day=="Afternoon (12pm - 4pm)"]),
+              mean(latest_data$heart_rate_bpm[latest_data$time_of_day=="Evening (5pm - 9pm)"]),
+              mean(latest_data$heart_rate_bpm[latest_data$time_of_day=="Night (9pm - 1am)"]))
+
+time_means <- data.frame(time_of_day, hr_means)                                                       #Putting the new variables into a new dataframe
+
+
+#Creating new dataframe for average heart rates across grouped activities
+
+eat_drink <- mean(c(latest_data$heart_rate_bpm[latest_data$activity=="Lunch"],            #Variable for activities I consider eating/drinking
+               latest_data$heart_rate_bpm[latest_data$activity=="Drinking coffee"],
+               latest_data$heart_rate_bpm[latest_data$activity=="Dinner"],
+               latest_data$heart_rate_bpm[latest_data$activity=="Breakfast"]))
+
+study <- mean(c(latest_data$heart_rate_bpm[latest_data$activity=="Walking home"],         #Variable for activities I consider study-related
+           latest_data$heart_rate_bpm[latest_data$activity=="Studying"],
+           latest_data$heart_rate_bpm[latest_data$activity=="Study"],
+           latest_data$heart_rate_bpm[latest_data$activity=="Going to class"]))
+
+chores <- mean(c(latest_data$heart_rate_bpm[latest_data$activity=="Laundry"],             #Variable for activities I consider chores
+            latest_data$heart_rate_bpm[latest_data$activity=="Groceries"],
+            latest_data$heart_rate_bpm[latest_data$activity=="Dishes"],
+            latest_data$heart_rate_bpm[latest_data$activity=="Cooking"],
+            latest_data$heart_rate_bpm[latest_data$activity=="Buying lunch"],
+            latest_data$heart_rate_bpm[latest_data$activity=="Buying dinner"],
+            latest_data$heart_rate_bpm[latest_data$activity=="Brushing teeth"]))
+
+recreation <- mean(c(latest_data$heart_rate_bpm[latest_data$activity=="Youtube"]))        #Variable for activities I consider recreation
+
+activity_means <- c(eat_drink, study, chores, recreation)                                 #Putting the new variables into a new dataframe
+activity_type <- c("Eating/Drinking", "Study", "Chores", "Recreation")
+grouped_activity <- data.frame(activity_means, activity_type)
+
+```
+
+### Heart Rate by Time
+
+This first graph shows us the average heart rate at each time of day separated into categories (Morning, Afternoon, Evening, and Night).
+
+```{r}
+
+#Mean heart rates by time of day
+time_means %>%
+  ggplot(aes(x = time_of_day, y = hr_means)) +
+    geom_bar(stat = "identity", fill = "#84CDE5") +
+  labs(title = "Mean Heart Rates by Time of Day",
+       subtitle = "Comparing which time of the day has the highest average heart rate",
+       caption = "Subject: William Tess",
+       x = "Time of Day",
+       y = "Mean Heart Rate (bpm)")
+
+```
+
+We can see from this graph that average heart rate was highest in the afternoon (`r hr_means[2]` bpm), followed by the evening (`r hr_means[3]` bpm), then night (`r hr_means[4]` bpm), then the morning where average heart rate was lowest (`r hr_means[1]` bpm).
+
+### Heart Rate by Activity
+
+This second graph describes average heart rate depending on the type of activity being done. Activities are categorised into being related to chores, eating/drinking, studying, and recreation.
+
+```{r}
+#Mean heart rates by activity type
+grouped_activity %>%
+  ggplot(aes(y = activity_means, x = activity_type)) +  
+    geom_bar(stat = "identity", fill = "#84CDE5") +
+  labs(title = "Mean Heart Rates by Activity Type",
+      subtitle = "Comparing which type of activity has the highest average heart rate",
+      caption = "Subject: William Tess",
+      x = "Activity Type",
+      y = "Mean Heart Rate (bpm)")
+
+```
+
+The activity type which had the highest average heart rate was chores (`r activity_means[3]` bpm), followed by eating/drinking (`r activity_means[1]` bpm), then studying (`r activity_means[2]` bpm), and lastly recreation which had the lowest average heart rate (`r activity_means[4]` bpm).
