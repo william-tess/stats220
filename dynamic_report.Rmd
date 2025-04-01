@@ -20,7 +20,7 @@ h3 {
 
 ## How Does Heart Rate Vary Throughout the Day?
 
-This dynamic report aims to investigate how heart rate for the subject (me) changes throughout the day including which activities were being done and what time of day it was.
+This dynamic report aims to investigate how heart rate changes throughout the day including which activities were being done and what time of day it was.
 
 ```{r}
 library(magick)
