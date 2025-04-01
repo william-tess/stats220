@@ -9,7 +9,13 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 ```
 
 ```{css}
-
+h2 {
+  font-weight: bold;
+  text-decoration: underline;
+}
+h3 {
+  font-weight: bold;
+}
 ```
 
 ## How Does Heart Rate Vary Throughout the Day?
@@ -21,7 +27,6 @@ library(magick)
 
 image_read(path = "https://c.tenor.com/Xx2YeqghQtkAAAAd/tenor.gif") %>%
   image_scale(200)
-
 ```
 
 ```{r}
@@ -117,4 +122,4 @@ grouped_activity %>%
 
 ```
 
-The activity type which had the highest average heart rate was chores (`r activity_means[3]` bpm), followed by eating/drinking (`r activity_means[1]` bpm), then studying (`r activity_means[2]` bpm), and lastly recreation which had the lowest average heart rate (`r activity_means[4]` bpm).
+The activity type which caused the highest average heart rate was chores (`r activity_means[3]` bpm), followed by eating/drinking (`r activity_means[1]` bpm), then studying (`r activity_means[2]` bpm), and lastly recreation which caused the lowest average heart rate (`r activity_means[4]` bpm).
